@@ -88,7 +88,7 @@
             // 
             // buttonLoad1
             // 
-            this.buttonLoad1.Location = new System.Drawing.Point(169, 16);
+            this.buttonLoad1.Location = new System.Drawing.Point(105, 16);
             this.buttonLoad1.Name = "buttonLoad1";
             this.buttonLoad1.Size = new System.Drawing.Size(75, 23);
             this.buttonLoad1.TabIndex = 3;
@@ -183,7 +183,7 @@
             // 
             // buttonUseWebcam
             // 
-            this.buttonUseWebcam.Location = new System.Drawing.Point(288, 16);
+            this.buttonUseWebcam.Location = new System.Drawing.Point(248, 16);
             this.buttonUseWebcam.Name = "buttonUseWebcam";
             this.buttonUseWebcam.Size = new System.Drawing.Size(75, 23);
             this.buttonUseWebcam.TabIndex = 13;
