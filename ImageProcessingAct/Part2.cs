@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WebCamLib;
 
 namespace ImageProcessingAct
 {
@@ -17,6 +18,8 @@ namespace ImageProcessingAct
         int widthA, heightA, widthB, heightB;
         int greenThreshold = 180;
         int redBlueMax = 100;
+        private Device webcamDevice;
+        private Timer frameTimer;
         public Part2()
         {
             InitializeComponent();
@@ -57,6 +60,63 @@ namespace ImageProcessingAct
             return result;
         }
 
+        private void buttonUseWebcam_Click(object sender, EventArgs e)
+        {
+            webcamDevice = new Device(0); // Use the correct index for your webcam
+            webcamDevice.ShowWindow(pictureBoxA); // Show webcam preview in PictureBox
+            Bitmap frame = webcamDevice.CaptureFrame();
+            imageB = new Bitmap(frame);
+            widthB = imageB.Width;
+            heightB = imageB.Height;
+        }
+
+        private void StartLiveProcessing()
+        {
+            //webcamDevice = new Device(0); // Use the correct index for your camera
+            //webcamDevice.ShowWindow(pictureBoxA); // Show live preview
+
+            frameTimer = new Timer();
+            frameTimer.Interval = 500; // ~30 FPS
+            frameTimer.Tick += (s, e) =>
+            {
+                Bitmap frame = webcamDevice.CaptureFrame();
+                if (frame != null)
+                {
+                    Bitmap processed = SubtractGreenscreen(frame); // Your existing method
+                    pictureBoxResult.Image = processed;
+                }
+            };
+            frameTimer.Start();
+        }
+
+        private Bitmap SubtractGreenscreen(Bitmap frame)
+        {
+            int width = frame.Width;
+            int height = frame.Height;
+            Bitmap result = new Bitmap(width, height);
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    Color pixel = frame.GetPixel(x, y);
+                    if (pixel.G > greenThreshold && pixel.R < redBlueMax && pixel.B < redBlueMax)
+                    {
+                        result.SetPixel(x, y, Color.Transparent); // Replace with transparency or background
+                    }
+                    else
+                    {
+                        result.SetPixel(x, y, pixel);
+                    }
+                }
+            }
+            return result;
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+
+        }
+
         private void buttonLoad1_Click(object sender, EventArgs e)
         {
             openFileDialog1.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp;*.gif";
@@ -91,28 +151,36 @@ namespace ImageProcessingAct
 
         private void buttonSubtract_Click(object sender, EventArgs e)
         {
-            int width = Math.Min(widthA, widthB);
-            int height = Math.Min(heightA, heightB);
-            bitmapResult = new Bitmap(width, height);
-
-            for (int x = 0; x < width; x++)
+            if(webcamDevice != null)
             {
-                for (int y = 0; y < height; y++)
-                {
-                    Color pixel = imageB.GetPixel(x, y);
-                    Color bgPixel = imageA.GetPixel(x, y);
+                StartLiveProcessing();
+                return;
+            }
+            else
+            {
+                int width = Math.Min(widthA, widthB);
+                int height = Math.Min(heightA, heightB);
+                bitmapResult = new Bitmap(width, height);
 
-                    if (pixel.G > greenThreshold && pixel.R < redBlueMax && pixel.B < redBlueMax)
+                for (int x = 0; x < width; x++)
+                {
+                    for (int y = 0; y < height; y++)
                     {
-                        bitmapResult.SetPixel(x, y, bgPixel);
-                    }
-                    else
-                    {
-                        bitmapResult.SetPixel(x, y, pixel);
+                        Color pixel = imageB.GetPixel(x, y);
+                        Color bgPixel = imageA.GetPixel(x, y);
+
+                        if (pixel.G > greenThreshold && pixel.R < redBlueMax && pixel.B < redBlueMax)
+                        {
+                            bitmapResult.SetPixel(x, y, bgPixel);
+                        }
+                        else
+                        {
+                            bitmapResult.SetPixel(x, y, pixel);
+                        }
                     }
                 }
+                pictureBoxResult.Image = bitmapResult;
             }
-            pictureBoxResult.Image = bitmapResult;
         }
 
         private void buttonSave_Click(object sender, EventArgs e)

@@ -16,7 +16,7 @@ namespace ImageProcessingAct
         Bitmap editedBitmap;
         Bitmap reversedBitmap;
         int originalWidth, originalHeight;
-        Boolean isReversed = false, ignoreGreen = false;
+        Boolean isReversed = false;
         public Part1()
         {
             InitializeComponent();
@@ -300,6 +300,64 @@ namespace ImageProcessingAct
         private void pictureBoxOriginal_Click_1(object sender, EventArgs e)
         {
 
+        }
+
+        private void buttonMix_Click(object sender, EventArgs e)
+        {
+            if (pictureBoxOriginal.Image != null)
+            {
+                if (isReversed)
+                {
+                    editedBitmap = new Bitmap(reversedBitmap);
+                }
+                else
+                {
+                    editedBitmap = new Bitmap(originalBitmap);
+                }
+                for (int y = 0; y < originalHeight; y++)
+                {
+                    for (int x = 0; x < originalWidth; x++)
+                    {
+                        Color originalColor;
+                        if (isReversed)
+                        {
+                            originalColor = reversedBitmap.GetPixel(x, y);
+                        }
+                        else
+                        {
+                            originalColor = originalBitmap.GetPixel(x, y);
+                        }
+                        if(x < originalWidth / 2 && y < originalHeight / 2)
+                        {
+                            // Upper Left quadrant - Copy
+                            editedBitmap.SetPixel(x, y, originalColor);
+                        }
+                        else if(x < originalWidth / 2 && y >= originalHeight / 2)
+                        {
+                            // Upper right quadrant - Grayscale
+                            int grayValue = (int)((originalColor.R + originalColor.G + originalColor.B) / 3);
+                            Color grayColor = Color.FromArgb(grayValue, grayValue, grayValue);
+                            editedBitmap.SetPixel(x, y, grayColor);
+                        }
+                        else if(x >= originalWidth / 2 && y < originalHeight / 2)
+                        {
+                            // Lower Left quadrant - Inverted
+                            Color invertedColor = Color.FromArgb(255 - originalColor.R, 255 - originalColor.G, 255 - originalColor.B);
+                            editedBitmap.SetPixel(x, y, invertedColor);
+                        }
+                        else
+                        {
+                            // Lower Right quadrant - Sepia
+                            Color sepia = Color.FromArgb(Math.Min(255, (int)(originalColor.R * 0.393 + originalColor.G * 0.769 + originalColor.B * 0.189)),
+                                            Math.Min(255, (int)(originalColor.R * 0.349 + originalColor.G * 0.686 + originalColor.B * 0.168)),
+                                            Math.Min(255, (int)(originalColor.R * 0.272 + originalColor.G * 0.534 + originalColor.B * 0.131)));
+                            editedBitmap.SetPixel(x, y, sepia);
+                        }
+                    }
+                }
+                pictureBoxEdited.Image = editedBitmap;
+                ShowRGBHistogram(editedBitmap);
+            }
         }
 
         private void pictureBoxEdited_Click_1(object sender, EventArgs e)

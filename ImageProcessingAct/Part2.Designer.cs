@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.pictureBoxA = new System.Windows.Forms.PictureBox();
             this.pictureBoxB = new System.Windows.Forms.PictureBox();
             this.pictureBoxResult = new System.Windows.Forms.PictureBox();
@@ -43,6 +44,8 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.trackBar3 = new System.Windows.Forms.TrackBar();
             this.textBox2 = new System.Windows.Forms.TextBox();
+            this.buttonUseWebcam = new System.Windows.Forms.Button();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxA)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxB)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxResult)).BeginInit();
@@ -178,10 +181,25 @@
             this.textBox2.TabIndex = 12;
             this.textBox2.Text = "Red/Blue Max";
             // 
+            // buttonUseWebcam
+            // 
+            this.buttonUseWebcam.Location = new System.Drawing.Point(288, 16);
+            this.buttonUseWebcam.Name = "buttonUseWebcam";
+            this.buttonUseWebcam.Size = new System.Drawing.Size(75, 23);
+            this.buttonUseWebcam.TabIndex = 13;
+            this.buttonUseWebcam.Text = "Webcam";
+            this.buttonUseWebcam.UseVisualStyleBackColor = true;
+            this.buttonUseWebcam.Click += new System.EventHandler(this.buttonUseWebcam_Click);
+            // 
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // Part2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.buttonUseWebcam);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.trackBar3);
             this.Controls.Add(this.textBox1);
@@ -224,5 +242,7 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.TrackBar trackBar3;
         private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Button buttonUseWebcam;
+        private System.Windows.Forms.Timer timer1;
     }
 }

@@ -40,6 +40,7 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.pictureBoxHistogram = new System.Windows.Forms.PictureBox();
+            this.buttonMix = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxEdited)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxOriginal)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxHistogram)).BeginInit();
@@ -70,7 +71,7 @@
             // 
             // buttonSepia
             // 
-            this.buttonSepia.Location = new System.Drawing.Point(758, 56);
+            this.buttonSepia.Location = new System.Drawing.Point(672, 56);
             this.buttonSepia.Name = "buttonSepia";
             this.buttonSepia.Size = new System.Drawing.Size(75, 23);
             this.buttonSepia.TabIndex = 20;
@@ -153,10 +154,21 @@
             this.pictureBoxHistogram.TabIndex = 23;
             this.pictureBoxHistogram.TabStop = false;
             // 
+            // buttonMix
+            // 
+            this.buttonMix.Location = new System.Drawing.Point(753, 56);
+            this.buttonMix.Name = "buttonMix";
+            this.buttonMix.Size = new System.Drawing.Size(80, 23);
+            this.buttonMix.TabIndex = 24;
+            this.buttonMix.Text = "Mix (Midterm)";
+            this.buttonMix.UseVisualStyleBackColor = true;
+            this.buttonMix.Click += new System.EventHandler(this.buttonMix_Click);
+            // 
             // Part1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.buttonMix);
             this.Controls.Add(this.pictureBoxHistogram);
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.checkBox1);
@@ -192,5 +204,6 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.PictureBox pictureBoxHistogram;
+        private System.Windows.Forms.Button buttonMix;
     }
 }

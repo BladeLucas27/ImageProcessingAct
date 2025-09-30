@@ -14,12 +14,14 @@ namespace ImageProcessingAct
     {
         private Part1 part1Control;
         private Part2 part2Control;
+        private ConvolutionMatrix convMatrixControl;
         public Form1()
         {
             InitializeComponent();
 
             part1Control = new Part1();
             part2Control = new Part2();
+            convMatrixControl = new ConvolutionMatrix();
 
             // Show Part1 by default
             ShowPage(part1Control);
@@ -27,6 +29,7 @@ namespace ImageProcessingAct
             // Wire up menu events
             menuItemPart1.Click += (s, e) => ShowPage(part1Control);
             menuItemPart2.Click += (s, e) => ShowPage(part2Control);
+            convolutionMatrixToolStripMenuItem.Click += (s, e) => ShowPage(convMatrixControl);
         }
 
         private void ShowPage(UserControl page)
